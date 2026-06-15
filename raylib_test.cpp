@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 
 #include "raylib-cpp.hpp"
 
@@ -59,7 +60,7 @@ class Field {
         unsigned int              length;
         unsigned int              height;
         unsigned int              cursor;
-        std::vector<Cell>         cells;
+        std::vector<std::shared_ptr<Cell>>         cells;
         std::vector<unsigned int> fog;
 
     public:
@@ -68,14 +69,14 @@ class Field {
         unsigned int      getLength()                 const;
         unsigned int      getHeight()                 const;
         unsigned int      getCursor()                 const;
-        std::vector<Cell> getCells()                  const;
+        std::vector<std::shared_ptr<Cell>> getCells()                  const;
         size_t            getCellsSize()              const;
-        Cell              getCell(unsigned int index) const;
+        // Cell              getCell(unsigned int index) const;
 
         void setLength(unsigned int new_length);
         void setHeight(unsigned int new_height);
 
-        void cellPush(Cell cell);
+        void cellPush(std::shared_ptr<Cell> cell_ptr);
 
         void render() const;
         void input();
@@ -84,7 +85,7 @@ class Field {
 Field::Field(unsigned int length, unsigned int height) : length(length), height(height), cursor(0) {
     for (unsigned int l = 0; l < getLength(); ++l) {
         for (unsigned int h = 0; h < getHeight(); ++h) {
-            cellPush( Cell((Vector2){ .x = (float)55*l, .y = (float)55*h }, 50) );
+            cellPush( std::make_unique<Cell>( Cell((Vector2){ .x = (float)55*l, .y = (float)55*h }, 50) ) );
         }
     }
 }
@@ -98,15 +99,15 @@ unsigned int     Field::getHeight() const {
 unsigned int     Field::getCursor() const {
     return this->cursor;
 }
-std::vector<Cell> Field::getCells()  const {
-    return this->cells;
+std::vector<std::shared_ptr<Cell>> Field::getCells()  const {
+    return std::vector<std::shared_ptr<Cell>>(this->cells);
 }
 size_t Field::getCellsSize()  const {
     return this->cells.size();
 }
-Cell Field::getCell(unsigned int index)  const {
-    return this->cells.at(index);
-}
+// Cell Field::getCell(unsigned int index)  const {
+//     return this->cells.at(index);
+// }
 
 void Field::setLength(unsigned int new_length) {
     this->length = new_length;
@@ -115,21 +116,20 @@ void Field::setHeight(unsigned int new_height) {
     this->height = new_height;
 }
 
-void Field::cellPush(Cell cell) {
-    this->cells.push_back(cell);
+void Field::cellPush(std::shared_ptr<Cell> cell_ptr) {
+    this->cells.push_back(std::move(cell_ptr));
 }
 
 void Field::render() const {
     for (auto v : getCells()) {
-        v.Draw();
+        v->Draw();
     }
 }
 void Field::input() {
     for (auto v : getCells()) {
-        v.setValue("A");
-        if (v.isPressed(GetMousePosition(), IsMouseButtonDown(0))) {
-            if (v.getValue() == " ")
-                v.setValue("O");
+        if (v->isPressed(GetMousePosition(), IsMouseButtonDown(0))) {
+            if (v->getValue() == " ")
+                v->setValue("O");
         }
     }
 }
@@ -139,7 +139,7 @@ int main() {
     int screenHeight = 800;
 
     raylib::Window window(screenWidth, screenHeight, "minesweeper");
-    std::vector<Cell> cells;
+    std::vector<std::shared_ptr<Cell>> cells;
 
     Field field = Field(10, 10);
 
