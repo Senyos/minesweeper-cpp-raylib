@@ -2,4 +2,6 @@
 */
 minesweeper
 tags
+*.tar.*
+*.tar
 

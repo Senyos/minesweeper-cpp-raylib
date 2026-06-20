@@ -20,6 +20,6 @@ class Cell {
         bool        isHidden()     const;
 
         Cell(Vector2 position, float scale);
-        void Draw();
-        bool isPressed(Vector2 mousePos, bool mousePressed);
+        void Draw(unsigned int screen_width, unsigned int screen_height, unsigned int field_length, unsigned int field_height);
+        bool isPressed(Vector2 mouse_pos, bool mouse_pressed, unsigned int screen_width, unsigned int screen_height, unsigned int field_length, unsigned int field_height);
 };

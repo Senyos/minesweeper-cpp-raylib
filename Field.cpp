@@ -3,7 +3,7 @@
 
 #include "Field.hpp"
 
-Field::Field(unsigned int length, unsigned int height, unsigned int bombs_amount) : length(length), height(height), bombs_amount(bombs_amount) {
+Field::Field(unsigned int length, unsigned int height, unsigned int bombs_amount) : length(length), height(height), bombs_amount(bombs_amount), is_game_over(false) {
     for (unsigned int l = 0; l < getLength(); ++l) {
         for (unsigned int h = 0; h < getHeight(); ++h) {
             cellPush( std::make_unique<Cell>( Cell((Vector2){ .x = (float)55*l, .y = (float)55*h }, 50) ) );
@@ -25,6 +25,9 @@ Field::Field(unsigned int length, unsigned int height, unsigned int bombs_amount
     }
 }
 
+bool Field::isGameOver() const {
+    return this->is_game_over;
+}
 unsigned int     Field::getLength() const {
     return this->length;
 }
@@ -48,6 +51,9 @@ std::shared_ptr<Cell> Field::getCell(unsigned int index)  const {
     return this->cells.at(index);
 }
 
+void Field::setGameOver(bool is_game_over) {
+    this->is_game_over = is_game_over;
+}
 void Field::setLength(unsigned int new_length) {
     this->length = new_length;
 }
@@ -59,18 +65,18 @@ void Field::cellPush(std::shared_ptr<Cell> cell_ptr) {
     this->cells.push_back(std::move(cell_ptr));
 }
 
-void Field::render() const {
+void Field::render(unsigned int screen_width, unsigned int screen_height) const {
     for (auto v : getCells()) {
-        v->Draw();
+        v->Draw(screen_width, screen_height, getLength(), getHeight());
     }
 }
-void Field::input() {
+void Field::input(unsigned int screen_width, unsigned int screen_height) {
     for (unsigned int i = 0, e = getCellsSize(); i < e; ++i) {
         std::shared_ptr<Cell> cell = getCell(i);
 
-        if (cell->isPressed(GetMousePosition(), IsMouseButtonDown(0))) {
-            if (cell->isHidden())
-                cell->show();
+        if (cell->isPressed(GetMousePosition(), IsMouseButtonDown(0), screen_width, screen_height, getLength(), getHeight())) {
+            if (cell->isHidden()) cell->show();
+            if ((cell->getTextUnder() == "*")) setGameOver(true);
         }
 
         std::shared_ptr<Cell> cell_left       = getCell(i - 1);
@@ -93,7 +99,7 @@ void Field::input() {
         if ((cell_down_left)  && (cell_down_left->getTextUnder()  == "*")) ++count;
         if ((cell_down_right) && (cell_down_right->getTextUnder() == "*")) ++count;
 
-        if (!(cell->getTextUnder() == "*")) {
+        if (cell->getTextUnder() != "*") {
             if (count == 0) cell->setTextUnder("");
             else cell->setTextUnder(std::to_string(count));
         }
