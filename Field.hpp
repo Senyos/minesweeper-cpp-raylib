@@ -23,7 +23,7 @@ class Field {
         unsigned int                       getBombsAmount()            const;
         std::vector<std::shared_ptr<Cell>> getCells()                  const;
         size_t                             getCellsSize()              const;
-        std::shared_ptr<Cell>              getCell(unsigned int index) const;
+        std::shared_ptr<Cell>              getCell(int index) const;
         // unsigned int                       getCursor()    const;
 
         void setGameOver(bool is_game_over);

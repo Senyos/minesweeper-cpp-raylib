@@ -1,5 +1,5 @@
 EXES=minesweeper
-CLASSES=Cell.cpp Field.cpp
+CLASSES=Cell.cpp Field.cpp Button.cpp Menu.cpp
 
 all: $(EXES)
 

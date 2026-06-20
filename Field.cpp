@@ -1,11 +1,11 @@
 #include <random>
-#include <iostream>
+// #include <iostream>
 
 #include "Field.hpp"
 
 Field::Field(unsigned int length, unsigned int height, unsigned int bombs_amount) : length(length), height(height), bombs_amount(bombs_amount), is_game_over(false) {
-    for (unsigned int l = 0; l < getLength(); ++l) {
-        for (unsigned int h = 0; h < getHeight(); ++h) {
+    for (unsigned int h = 0; h < getHeight(); ++h) {
+        for (unsigned int l = 0; l < getLength(); ++l) {
             cellPush( std::make_unique<Cell>( Cell((Vector2){ .x = (float)55*l, .y = (float)55*h }, 50) ) );
         }
     }
@@ -46,9 +46,10 @@ std::vector<std::shared_ptr<Cell>> Field::getCells()  const {
 size_t Field::getCellsSize()  const {
     return this->cells.size();
 }
-std::shared_ptr<Cell> Field::getCell(unsigned int index)  const {
-    if (index >= getCellsSize()) return nullptr;
-    return this->cells.at(index);
+std::shared_ptr<Cell> Field::getCell(int index)  const {
+    if (index < 0)                    return nullptr;
+    if (index >= (int)getCellsSize()) return nullptr;
+    return this->cells[index];
 }
 
 void Field::setGameOver(bool is_game_over) {
@@ -74,9 +75,12 @@ void Field::input(unsigned int screen_width, unsigned int screen_height) {
     for (unsigned int i = 0, e = getCellsSize(); i < e; ++i) {
         std::shared_ptr<Cell> cell = getCell(i);
 
-        if (cell->isPressed(GetMousePosition(), IsMouseButtonDown(0), screen_width, screen_height, getLength(), getHeight())) {
+        if ((cell->isPressed(GetMousePosition(), IsMouseButtonPressed(0), screen_width, screen_height, getLength(), getHeight())) && (cell->getTextAbove() != "#")) {
             if (cell->isHidden()) cell->show();
-            if ((cell->getTextUnder() == "*")) setGameOver(true);
+            if (cell->getTextUnder() == "*") setGameOver(true);
+        } else if (cell->isPressed(GetMousePosition(), IsMouseButtonPressed(1), screen_width, screen_height, getLength(), getHeight())) {
+            if (cell->getTextAbove() != "#") cell->setTextAbove("#");
+            else cell->setTextAbove("");
         }
 
         std::shared_ptr<Cell> cell_left       = getCell(i - 1);
@@ -88,6 +92,27 @@ void Field::input(unsigned int screen_width, unsigned int screen_height) {
         std::shared_ptr<Cell> cell_up_right   = getCell(i - getLength() + 1);
         std::shared_ptr<Cell> cell_down_left  = getCell(i + getLength() - 1);
         std::shared_ptr<Cell> cell_down_right = getCell(i + getLength() + 1);
+
+        if (i%getLength() == 0) {
+            cell_left = nullptr;
+            cell_up_left  = nullptr;
+            cell_down_left  = nullptr;
+        }
+        if (i%getLength() == getLength() - 1) {
+            cell_right = nullptr;
+            cell_up_right = nullptr;
+            cell_down_right = nullptr;
+        }
+        if (i < getLength()) {
+            cell_above    = nullptr;
+            cell_up_left  = nullptr;
+            cell_up_right = nullptr;
+        }
+        if ((i < (getLength()*getHeight())) && (i > (getLength()*getHeight() - getLength() - 1))) {
+            cell_below      = nullptr;
+            cell_down_left  = nullptr;
+            cell_down_right = nullptr;
+        }
 
         int count = 0;
         if ((cell_left)       && (cell_left->getTextUnder()       == "*")) ++count;
