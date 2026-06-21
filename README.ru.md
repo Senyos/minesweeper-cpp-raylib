@@ -1,5 +1,10 @@
 # Сапёр на C++
 
+## Языки README
+
+- [Английский](https://github.com/Senyos/minesweeper-cpp-raylib/blob/main/README.md)
+- [Русский](https://github.com/Senyos/minesweeper-cpp-raylib/blob/main/README.ru.md)
+
 ## Содержание
 
 * [Скриншоты](#скриншоты)

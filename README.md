@@ -1,5 +1,10 @@
 # Minesweeper in C++
 
+## Languages of README
+
+- [English](https://github.com/Senyos/minesweeper-cpp-raylib/blob/main/README.md)
+- [Russian](https://github.com/Senyos/minesweeper-cpp-raylib/blob/main/README.ru.md)
+
 ## TOC
 
 * [Screenshots](#screenshots)
