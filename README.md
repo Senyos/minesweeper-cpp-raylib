@@ -13,6 +13,10 @@
 
 ![Game screenshot 2](./2_screenshot.png "Game screenshot 2")
 
+![Game screenshot 3](./3_screenshot.png "Game screenshot 3")
+
+![Game screenshot 4](./4_screenshot.png "Game screenshot 4")
+
 ## Quick start
 
 ### Dependencies

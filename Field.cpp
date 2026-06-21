@@ -157,5 +157,5 @@ void Field::input(unsigned int screen_width, unsigned int screen_height) {
         }
     }
 
-    if (opened_cells_amount == cells_amount - bombs_amount) setWin(true);
+    if (opened_cells_amount == cells_amount - bombs_amount + 3) setWin(true);
 }

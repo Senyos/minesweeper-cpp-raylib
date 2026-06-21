@@ -117,8 +117,8 @@ int main() {
                     field.render(GetScreenWidth(), GetScreenHeight());
                     float centered_x = ((GetScreenWidth() - field.getLength()*55) / 2);
                     float centered_y = (GetScreenHeight() / 2);
-                    raylib::DrawText("YOU WON! (press R to restart\nor ESC to return to the main menu)", centered_x + 2, centered_y + 2, 50, raylib::Color::Green());
-                    raylib::DrawText("YOU WON! (press R to restart\nor ESC to return to the main menu)", centered_x, centered_y, 50, raylib::Color::DarkGreen());
+                    raylib::DrawText("YOU WON! (press R to restart\nor ESC to return to the main menu)", centered_x + 2, centered_y + 2, 50, raylib::Color::DarkGreen());
+                    raylib::DrawText("YOU WON! (press R to restart\nor ESC to return to the main menu)", centered_x, centered_y, 50, raylib::Color::Green());
                     window.ClearBackground(raylib::Color::LightGray());
                 EndMode2D();
                 EndDrawing();
