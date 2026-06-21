@@ -1,5 +1,3 @@
-// #include <iostream>
-
 #include "raylib-cpp.hpp"
 
 #include "Cell.hpp"
