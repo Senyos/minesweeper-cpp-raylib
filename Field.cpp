@@ -1,9 +1,8 @@
 #include <random>
-// #include <iostream>
 
 #include "Field.hpp"
 
-Field::Field(unsigned int length, unsigned int height, unsigned int bombs_amount) : length(length), height(height), bombs_amount(bombs_amount), is_game_over(false) {
+Field::Field(unsigned int length, unsigned int height, unsigned int bombs_amount) : length(length), height(height), cells_amount(length*height), bombs_amount(bombs_amount), is_game_over(false), is_win(false) {
     for (unsigned int h = 0; h < getHeight(); ++h) {
         for (unsigned int l = 0; l < getLength(); ++l) {
             cellPush( std::make_unique<Cell>( Cell((Vector2){ .x = (float)55*l, .y = (float)55*h }, 50) ) );
@@ -27,6 +26,9 @@ Field::Field(unsigned int length, unsigned int height, unsigned int bombs_amount
 
 bool Field::isGameOver() const {
     return this->is_game_over;
+}
+bool Field::isWin() const {
+    return this->is_win;
 }
 unsigned int     Field::getLength() const {
     return this->length;
@@ -55,6 +57,9 @@ std::shared_ptr<Cell> Field::getCell(int index)  const {
 void Field::setGameOver(bool is_game_over) {
     this->is_game_over = is_game_over;
 }
+void Field::setWin(bool is_win) {
+    this->is_win = is_win;
+}
 void Field::setLength(unsigned int new_length) {
     this->length = new_length;
 }
@@ -72,12 +77,20 @@ void Field::render(unsigned int screen_width, unsigned int screen_height) const 
     }
 }
 void Field::input(unsigned int screen_width, unsigned int screen_height) {
+    unsigned int opened_cells_amount = 0;
     for (unsigned int i = 0, e = getCellsSize(); i < e; ++i) {
         std::shared_ptr<Cell> cell = getCell(i);
+        if (cell->isHidden() == false) ++opened_cells_amount;
 
         if ((cell->isPressed(GetMousePosition(), IsMouseButtonPressed(0), screen_width, screen_height, getLength(), getHeight())) && (cell->getTextAbove() != "#")) {
             if (cell->isHidden()) cell->show();
-            if (cell->getTextUnder() == "*") setGameOver(true);
+            if (cell->getTextUnder() == "*") {
+                setGameOver(true);
+                for (unsigned int j = 0 ; j < e; ++j) {
+                    std::shared_ptr<Cell> cell_over = getCell(j);
+                    if (cell_over->getTextUnder() == "*") cell_over->show();
+                }
+            }
         } else if (cell->isPressed(GetMousePosition(), IsMouseButtonPressed(1), screen_width, screen_height, getLength(), getHeight())) {
             if (cell->getTextAbove() != "#") cell->setTextAbove("#");
             else cell->setTextAbove("");
@@ -143,4 +156,6 @@ void Field::input(unsigned int screen_width, unsigned int screen_height) {
                 cell->show();
         }
     }
+
+    if (opened_cells_amount == cells_amount - bombs_amount) setWin(true);
 }

@@ -9,15 +9,18 @@ class Field {
     private:
         unsigned int                       length;
         unsigned int                       height;
+        unsigned int                       cells_amount;
         unsigned int                       bombs_amount;
         std::vector<std::shared_ptr<Cell>> cells;
         std::vector<unsigned int>          fog;
         bool                               is_game_over;
+        bool                               is_win;
 
     public:
         Field(unsigned int length, unsigned int height, unsigned int bombs_amount);
 
         bool                               isGameOver()                const;
+        bool                               isWin()                     const;
         unsigned int                       getLength()                 const;
         unsigned int                       getHeight()                 const;
         unsigned int                       getBombsAmount()            const;
@@ -27,6 +30,7 @@ class Field {
         // unsigned int                       getCursor()    const;
 
         void setGameOver(bool is_game_over);
+        void setWin(bool is_win);
         void setLength(unsigned int new_length);
         void setHeight(unsigned int new_height);
 

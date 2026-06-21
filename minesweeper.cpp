@@ -56,7 +56,7 @@ int main() {
             menu.input(GetScreenWidth(), GetScreenHeight());
         }
 
-        if ((game_started == false) && (menu.getButton(2)->isPressed(GetMousePosition(), IsMouseButtonPressed(0), GetScreenWidth(), GetScreenHeight(), menu.getLength(), menu.getHeight()))) {
+        if ((game_started == false) && (menu.getButton(2)->isPressed(GetMousePosition(), IsMouseButtonReleased(0), GetScreenWidth(), GetScreenHeight(), menu.getLength(), menu.getHeight()))) {
             CloseWindow();
             return 0;
         }
@@ -75,7 +75,7 @@ int main() {
             bombs_amount = field_size*field_size*0.20f;
         }
 
-        if ((game_started == false) && (menu.getButton(0)->isPressed(GetMousePosition(), IsMouseButtonPressed(0), GetScreenWidth(), GetScreenHeight(), menu.getLength(), menu.getHeight()))) game_started = true;
+        if ((game_started == false) && (menu.getButton(0)->isPressed(GetMousePosition(), IsMouseButtonReleased(0), GetScreenWidth(), GetScreenHeight(), menu.getLength(), menu.getHeight()))) game_started = true;
 
         if (game_started == false) field = Field(field_size, field_size, bombs_amount);
 
@@ -98,8 +98,29 @@ int main() {
                     field.render(GetScreenWidth(), GetScreenHeight());
                     float centered_x = ((GetScreenWidth() - field.getLength()*55) / 2);
                     float centered_y = (GetScreenHeight() / 2);
-                    raylib::DrawText("GAME OVER (press R to restart\nor ESC to return to the main menu)", centered_x + 2, centered_y + 2, 50, raylib::Color::DarkGray());
+                    raylib::DrawText("GAME OVER (press R to restart\nor ESC to return to the main menu)", centered_x + 2, centered_y + 2, 50, raylib::Color::Maroon());
                     raylib::DrawText("GAME OVER (press R to restart\nor ESC to return to the main menu)", centered_x, centered_y, 50, raylib::Color::Black());
+                    window.ClearBackground(raylib::Color::LightGray());
+                EndMode2D();
+                EndDrawing();
+            }
+
+            while (field.isWin()) {
+                if (IsKeyPressed(KEY_ESCAPE)) {
+                    game_started = false;
+                    break;
+                }
+                if (IsKeyPressed(KEY_R)) {
+                    field = Field(field_size, field_size, bombs_amount);
+                    break;
+                }
+                BeginDrawing();
+                BeginMode2D(camera);
+                    field.render(GetScreenWidth(), GetScreenHeight());
+                    float centered_x = ((GetScreenWidth() - field.getLength()*55) / 2);
+                    float centered_y = (GetScreenHeight() / 2);
+                    raylib::DrawText("YOU WON! (press R to restart\nor ESC to return to the main menu)", centered_x + 2, centered_y + 2, 50, raylib::Color::Green());
+                    raylib::DrawText("YOU WON! (press R to restart\nor ESC to return to the main menu)", centered_x, centered_y, 50, raylib::Color::DarkGreen());
                     window.ClearBackground(raylib::Color::LightGray());
                 EndMode2D();
                 EndDrawing();
