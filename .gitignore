@@ -1,6 +1,7 @@
 *.exe
 */
 minesweeper
+minesweeper-for-appimage
 tags
 *.tar.*
 *.tar

@@ -16,7 +16,6 @@ class Button {
         void press();
         void unPress();
         void setText(std::string text);
-        void show();
 
         bool        getState()  const;
         std::string getText()   const;

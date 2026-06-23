@@ -12,7 +12,6 @@ class Field {
         unsigned int                       cells_amount;
         unsigned int                       bombs_amount;
         std::vector<std::shared_ptr<Cell>> cells;
-        std::vector<unsigned int>          fog;
         bool                               is_game_over;
         bool                               is_win;
 
@@ -26,8 +25,7 @@ class Field {
         unsigned int                       getBombsAmount()            const;
         std::vector<std::shared_ptr<Cell>> getCells()                  const;
         size_t                             getCellsSize()              const;
-        std::shared_ptr<Cell>              getCell(int index) const;
-        // unsigned int                       getCursor()    const;
+        std::shared_ptr<Cell>              getCell(int index)          const;
 
         void setGameOver(bool is_game_over);
         void setWin(bool is_win);

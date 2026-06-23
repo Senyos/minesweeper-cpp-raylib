@@ -1,4 +1,4 @@
-EXESLIN=minesweeper
+EXESLIN=minesweeper minesweeper-for-appimage
 EXESWIN=minesweeper.exe
 CLASSES=Cell.cpp Field.cpp Button.cpp Menu.cpp
 CFLAGS=-Wall -Wextra
@@ -25,6 +25,8 @@ minesweeper: minesweeper.cpp $(CLASSES)
 minesweeper.exe: minesweeper.cpp $(CLASSES)
 	$(CCWIN) $(CFLAGS) -static $(RAYLIBCPP_INCLUDE) $(RAYLIBWIN_INCLUDE) $(RAYLIBWIN_LIB) -o $@ $^ -l:libraylib.a -lopengl32 -lgdi32 -lwinmm
 
+minesweeper-for-appimage: minesweeper.cpp $(CLASSES)
+	$(CCLIN) $(CFLAGS) -static-libgcc -static-libstdc++ -Wl,--disable-new-dtags,-rpath,'../lib' $(RAYLIBCPP_INCLUDE) $(RAYLIBLIN_INCLUDE) $(RAYLIBLIN_LIB) -L../lib/ -o $@ $^ -l:libraylib.a -lX11
 
 clear:
 	rm $(EXES) *.tar*
