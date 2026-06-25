@@ -1,5 +1,6 @@
 *.exe
-*/
+raylib*/
+build/
 minesweeper
 minesweeper-for-appimage
 tags

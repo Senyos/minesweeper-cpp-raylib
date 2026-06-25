@@ -76,6 +76,8 @@ or
 make
 ```
 
+Compiled executable files will be stored in the `build/` directory.
+
 ## About
 
 A fully functional Minesweeper game built in C++ using the raylib library (<https://www.raylib.com/>). The raylib-cpp bindings (<https://github.com/RobLoach/raylib-cpp>) were used.
@@ -85,3 +87,5 @@ A fully functional Minesweeper game built in C++ using the raylib library (<http
 In the main menu, you can select a difficulty level by clicking the "FIELD" button multiple times. The "START" button begins the game on the selected field.
 
 On the game board, use the Left Mouse Button (LMB) to reveal a cell and the Right Mouse Button (RMB) to place a flag.
+
+Press R when loose to replay. Press ESC when loose to return to the main menu. Press ESC in the main menu to quit the game.

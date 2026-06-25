@@ -1,6 +1,10 @@
+SRCDIR=src/
+BUILDDIR=build/
+
 EXESLIN=minesweeper minesweeper-for-appimage
 EXESWIN=minesweeper.exe
-CLASSES=Cell.cpp Field.cpp Button.cpp Menu.cpp
+CLASSES=$(SRCDIR)Cell.cpp $(SRCDIR)Field.cpp $(SRCDIR)Button.cpp $(SRCDIR)Menu.cpp
+MAINFILE=$(SRCDIR)minesweeper.cpp
 CFLAGS=-Wall -Wextra
 
 CCLIN=g++                                                 # Linux compiler
@@ -19,14 +23,17 @@ all: lin win
 lin: $(EXESLIN)
 win: $(EXESWIN)
 
-minesweeper: minesweeper.cpp $(CLASSES)
-	$(CCLIN) $(CFLAGS) -static-libgcc -static-libstdc++ $(RAYLIBCPP_INCLUDE) $(RAYLIBLIN_INCLUDE) $(RAYLIBLIN_LIB) -o $@ $^ -l:libraylib.a -lX11
+minesweeper: $(MAINFILE) $(CLASSES) | build_dir
+	$(CCLIN) $(CFLAGS) -static-libgcc -static-libstdc++ $(RAYLIBCPP_INCLUDE) $(RAYLIBLIN_INCLUDE) $(RAYLIBLIN_LIB) -o $(BUILDDIR)$@ $^ -l:libraylib.a -lX11
 
-minesweeper.exe: minesweeper.cpp $(CLASSES)
-	$(CCWIN) $(CFLAGS) -static $(RAYLIBCPP_INCLUDE) $(RAYLIBWIN_INCLUDE) $(RAYLIBWIN_LIB) -o $@ $^ -l:libraylib.a -lopengl32 -lgdi32 -lwinmm
+minesweeper.exe: $(MAINFILE) $(CLASSES) | build_dir
+	$(CCWIN) $(CFLAGS) -static $(RAYLIBCPP_INCLUDE) $(RAYLIBWIN_INCLUDE) $(RAYLIBWIN_LIB) -o $(BUILDDIR)$@ $^ -l:libraylib.a -lopengl32 -lgdi32 -lwinmm
 
-minesweeper-for-appimage: minesweeper.cpp $(CLASSES)
-	$(CCLIN) $(CFLAGS) -static-libgcc -static-libstdc++ -Wl,--disable-new-dtags,-rpath,'../lib' $(RAYLIBCPP_INCLUDE) $(RAYLIBLIN_INCLUDE) $(RAYLIBLIN_LIB) -L../lib/ -o $@ $^ -l:libraylib.a -lX11
+minesweeper-for-appimage: $(MAINFILE) $(CLASSES) | build_dir
+	$(CCLIN) $(CFLAGS) -static-libgcc -static-libstdc++ -Wl,--disable-new-dtags,-rpath,'../lib' $(RAYLIBCPP_INCLUDE) $(RAYLIBLIN_INCLUDE) $(RAYLIBLIN_LIB) -L../lib/ -o $(BUILDDIR)$@ $^ -l:libraylib.a -lX11
+
+build_dir:
+	make $(BUILDDIR)
 
 clear:
 	rm $(EXES) *.tar*
