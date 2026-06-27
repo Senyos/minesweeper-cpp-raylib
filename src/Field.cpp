@@ -78,9 +78,11 @@ void Field::render(unsigned int screen_width, unsigned int screen_height) const 
 }
 void Field::input(unsigned int screen_width, unsigned int screen_height) {
     unsigned int opened_cells_amount = 0;
+    unsigned int bombs_cells_amount = 0;
     for (unsigned int i = 0, e = getCellsSize(); i < e; ++i) {
         std::shared_ptr<Cell> cell = getCell(i);
         if (cell->isHidden() == false) ++opened_cells_amount;
+        if (cell->getTextUnder() == "*") ++bombs_cells_amount;
 
         if ((cell->isPressed(GetMousePosition(), IsMouseButtonPressed(0), screen_width, screen_height, getLength(), getHeight())) && (cell->getTextAbove() != "#")) {
             if (cell->isHidden()) cell->show();
@@ -157,5 +159,5 @@ void Field::input(unsigned int screen_width, unsigned int screen_height) {
         }
     }
 
-    if (opened_cells_amount == cells_amount - bombs_amount + 3) setWin(true);
+    if (opened_cells_amount >= cells_amount - bombs_cells_amount) setWin(true);
 }
