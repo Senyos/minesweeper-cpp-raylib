@@ -26,6 +26,18 @@
 
 ### Dependencies
 
+You can install the required dependencies (using the versions current at the time of development) with the following command:
+
+```sh
+make download
+```
+
+For this to work, you must have `curl` and `unzip` pre-installed.
+
+This will not install the compiler; it only installs the `raylib` bindings and releases for _Windows_ and _Linux_.
+
+Alternatively, perform the following steps manually:
+
 You'll need to install dependencies into the root directory of the project:
 
 1. Raylib release for target OS: <https://github.com/raysan5/raylib/releases>.
@@ -43,7 +55,7 @@ First, you'll need to configure Makefile a bit in case naming defers:
 CCLIN=g++                                                 # Linux compiler
 CCWIN=x86_64-w64-mingw32-g++                              # Windows compiler
 
-RAYLIBCPP_INCLUDE=-I./raylib-cpp/include/                 # raylib cpp bindings include
+RAYLIBCPP_INCLUDE=-I./raylib-cpp-master/include/          # raylib cpp bindings include
 
 RAYLIBLIN_INCLUDE=-I./raylib-6.0_linux_amd64/include/     # raylib for Linux include
 RAYLIBLIN_LIB=-L./raylib-6.0_linux_amd64/lib              # raylib for Linux lib
@@ -74,6 +86,18 @@ or
 
 ```sh
 make
+```
+
+Compiling for _Linux_ using `AppImage`:
+
+```sh
+make lin-app
+```
+
+Clear repo from trash:
+
+```sh
+make clear
 ```
 
 Compiled executable files will be stored in the `build/` directory.

@@ -26,6 +26,18 @@
 
 ### Зависимости
 
+Вы можете установить нужные зависимости (версией на момент разрабокти) командой:
+
+```sh
+make download
+```
+
+Для того, чтобы это сработало, у Вас должны быть предустановлены `curl` и `unzip`.
+
+При этом не будет установлен компилятор, только `raylib` бинды и релизы для _Windows_ и _Linux_
+
+Иначе выполните следующие действия вручную:
+
 Вам понадобится установить зависимости в корневую директорию проекта:
 
 1. Raylib релиз для целевой ОС: <https://github.com/raysan5/raylib/releases>.
@@ -43,7 +55,7 @@
 CCLIN=g++                                                 # Linux compiler
 CCWIN=x86_64-w64-mingw32-g++                              # Windows compiler
 
-RAYLIBCPP_INCLUDE=-I./raylib-cpp/include/                 # raylib cpp bindings include
+RAYLIBCPP_INCLUDE=-I./raylib-cpp-master/include/          # raylib cpp bindings include
 
 RAYLIBLIN_INCLUDE=-I./raylib-6.0_linux_amd64/include/     # raylib for Linux include
 RAYLIBLIN_LIB=-L./raylib-6.0_linux_amd64/lib              # raylib for Linux lib
@@ -74,6 +86,18 @@ make all
 
 ```sh
 make
+```
+
+Комплияция под _Linux_, используя `AppImage`:
+
+```sh
+make lin-app
+```
+
+Очистить репозиторий от мусора:
+
+```sh
+make clear
 ```
 
 Скомпилированные запускаемые файлы будут храниться в директории `build/`.
