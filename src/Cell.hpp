@@ -11,6 +11,8 @@ class Cell {
         std::string text_above;
         std::string text_under;
     public:
+        Cell(Vector2 position, float scale);
+
         void setTextUnder(std::string text);
         void setTextAbove(std::string text);
         void show();
@@ -19,7 +21,6 @@ class Cell {
         std::string getTextAbove() const;
         bool        isHidden()     const;
 
-        Cell(Vector2 position, float scale);
         void Draw(unsigned int screen_width, unsigned int screen_height, unsigned int field_length, unsigned int field_height);
         bool isPressed(Vector2 mouse_pos, bool mouse_pressed, unsigned int screen_width, unsigned int screen_height, unsigned int field_length, unsigned int field_height);
 };
