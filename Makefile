@@ -11,16 +11,16 @@ CLASSES=$(SRCDIR)Cell.cpp $(SRCDIR)Field.cpp $(SRCDIR)Button.cpp $(SRCDIR)Menu.c
 MAINFILE=$(SRCDIR)minesweeper.cpp
 CFLAGS=-Wall -Wextra
 
-CCLIN=g++                                                 # Linux compiler
-CCWIN=x86_64-w64-mingw32-g++                              # Windows compiler
+CCLIN=g++#                                                # Linux compiler
+CCWIN=x86_64-w64-mingw32-g++#                             # Windows compiler
 
-RAYLIBCPP_INCLUDE=-I./raylib-cpp-master/include/          # raylib cpp bindings include
+RAYLIBCPP_INCLUDE=-I./raylib-cpp-master/include/#         # raylib cpp bindings include
 
-RAYLIBLIN_INCLUDE=-I./raylib-6.0_linux_amd64/include/     # raylib for Linux include
-RAYLIBLIN_LIB=-L./raylib-6.0_linux_amd64/lib              # raylib for Linux lib
+RAYLIBLIN_INCLUDE=-I./raylib-6.0_linux_amd64/include/#    # raylib for Linux include
+RAYLIBLIN_LIB=-L./raylib-6.0_linux_amd64/lib#             # raylib for Linux lib
 
-RAYLIBWIN_INCLUDE=-I./raylib-6.0_win64_mingw-w64/include/ # raylib for Windows include
-RAYLIBWIN_LIB=-L./raylib-6.0_win64_mingw-w64/lib/         # raylib for Windows lib
+RAYLIBWIN_INCLUDE=-I./raylib-6.0_win64_mingw-w64/include/## raylib for Windows include
+RAYLIBWIN_LIB=-L./raylib-6.0_win64_mingw-w64/lib/#        # raylib for Windows lib
 
 
 all: lin win
